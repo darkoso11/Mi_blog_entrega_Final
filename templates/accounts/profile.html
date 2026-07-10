@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil | MiblogFinal{% endblock %}
+
+{% block content %}
+<section class="profile">
+    <h1>Perfil de {{ user.username }}</h1>
+    {% if user.profile.avatar %}
+        <img class="avatar" src="{{ user.profile.avatar.url }}" alt="Avatar de {{ user.username }}">
+    {% endif %}
+    <p><strong>Nombre:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Biografia:</strong> {{ user.profile.bio|default:"Sin biografia cargada." }}</p>
+    <a class="button" href="{% url 'profile_edit' %}">Editar perfil</a>
+</section>
+{% endblock %}

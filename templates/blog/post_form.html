@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Entrada | MiblogFinal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <h1>{% if object %}Editar entrada{% else %}Nueva entrada{% endif %}</h1>
+    <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="error-list">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button class="button" type="submit">Guardar</button>
+    </form>
+</section>
+{% endblock %}

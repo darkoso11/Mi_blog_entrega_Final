@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar entrada | MiblogFinal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <h1>Eliminar entrada</h1>
+    <p>Estas seguro de que quieres eliminar "{{ object.title }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="button danger" type="submit">Eliminar</button>
+        <a class="button secondary" href="{{ object.get_absolute_url }}">Cancelar</a>
+    </form>
+</section>
+{% endblock %}

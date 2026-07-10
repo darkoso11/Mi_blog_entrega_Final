@@ -1,0 +1,46 @@
+{% load static %}
+{% load blog_filters %}
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ site_name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav">
+            <a class="brand" href="{% url 'post_list' %}">{{ site_name }}</a>
+            <div class="nav-links">
+                <a href="{% url 'post_list' %}">Inicio</a>
+                <a href="{% url 'author_search' %}">Autores</a>
+                <a href="{% url 'about' %}">Acerca de</a>
+                <a href="{% url 'contact' %}">Contacto</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'post_create' %}">Nueva entrada</a>
+                    <a href="{% url 'profile' %}">Perfil</a>
+                    <form class="inline-form" method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Salir</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Ingresar</a>
+                    <a href="{% url 'register' %}">Registro</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% if messages %}
+            <section class="messages">
+                {% for message in messages %}
+                    <p class="message {{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </section>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load blog_filters %}
+
+{% block title %}Inicio | MiblogFinal{% endblock %}
+
+{% block content %}
+<section class="page-title">
+    <h1>MiblogFinal</h1>
+    <p>Un blog funcional creado con Django para la entrega final.</p>
+</section>
+
+{% if posts %}
+    <section class="post-grid">
+        {% for post in posts %}
+            <article class="post-card">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                {% endif %}
+                <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                <p class="muted">
+                    Por {{ post.author_profile|default:post.author.username }}
+                    - {{ post.created_at|format_date }}
+                </p>
+                <p>{{ post.subtitle }}</p>
+                {% if post.tags.all %}
+                    <p class="tags">
+                        {% for tag in post.tags.all %}
+                            <span>{{ tag.name }}</span>
+                        {% endfor %}
+                    </p>
+                {% endif %}
+                <a class="button" href="{{ post.get_absolute_url }}">Leer mas</a>
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <p>No hay entradas publicadas todavia.</p>
+{% endif %}
+{% endblock %}

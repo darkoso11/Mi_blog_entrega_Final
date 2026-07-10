@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Autores | MiblogFinal{% endblock %}
+
+{% block content %}
+<section class="form-panel">
+    <h1>Buscar autores</h1>
+    <form method="get">
+        <label for="q">Nombre del autor</label>
+        <input id="q" type="search" name="q" value="{{ query }}">
+        <button class="button" type="submit">Buscar</button>
+    </form>
+</section>
+
+<section class="text-page results">
+    <h2>Resultados</h2>
+    {% if results %}
+        <ul>
+            {% for author in results %}
+                <li>{{ author.name }} - {{ author.email }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay autores para mostrar.</p>
+    {% endif %}
+</section>
+{% endblock %}
