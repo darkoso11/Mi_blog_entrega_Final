@@ -16,8 +16,9 @@ class UserRegisterForm(UserCreationForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email']
         labels = {
+            'username': 'Nombre de usuario',
             'first_name': 'Nombre',
             'last_name': 'Apellido',
             'email': 'Correo electronico',

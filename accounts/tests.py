@@ -37,6 +37,7 @@ class AccountTests(TestCase):
         response = self.client.post(
             reverse('profile_edit'),
             {
+                'username': 'ana_actualizada',
                 'first_name': 'Ana',
                 'last_name': 'Lopez',
                 'email': 'ana.lopez@example.com',
@@ -47,5 +48,6 @@ class AccountTests(TestCase):
         user.refresh_from_db()
         user.profile.refresh_from_db()
         self.assertRedirects(response, reverse('profile'))
+        self.assertEqual(user.username, 'ana_actualizada')
         self.assertEqual(user.first_name, 'Ana')
         self.assertEqual(user.profile.bio, 'Desarrolladora Django.')

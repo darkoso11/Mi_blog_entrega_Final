@@ -23,7 +23,7 @@ class PostListView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        return Post.published_posts.select_related('author')
+        return Post.published_posts.select_related('author', 'author_profile').prefetch_related('tags')
 
 
 class PostDetailView(DetailView):
@@ -33,11 +33,19 @@ class PostDetailView(DetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
+    def get_queryset(self):
+        return Post.objects.select_related('author', 'author_profile').prefetch_related('tags')
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blog/post_form.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         recent_cutoff = timezone.now() - timezone.timedelta(seconds=30)
@@ -69,6 +77,11 @@ class PostUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         messages.success(self.request, 'La entrada fue actualizada.')
         return super().form_valid(form)
@@ -96,7 +109,7 @@ class ContactView(TemplateView):
 
 def search_authors(request):
     query = request.GET.get('q', '').strip()
-    results = Author.objects.filter(name__icontains=query) if query else []
+    results = Author.objects.filter(name__icontains=query) if query else Author.objects.all()
     return render(
         request,
         'blog/search_authors.html',

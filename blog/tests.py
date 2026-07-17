@@ -6,6 +6,7 @@ from django.urls import reverse
 from .forms import PostForm
 from .context_processors import site_info
 from .models import Author, Post, Tag
+from .utils import sync_author_for_user
 
 
 class PostModelTests(TestCase):
@@ -41,7 +42,10 @@ class PostModelTests(TestCase):
 
     def test_post_can_have_author_profile_and_tags(self):
         user = User.objects.create_user(username='autor', password='clave-segura')
-        author = Author.objects.create(name='Ana Bloguera', email='ana@example.com')
+        author = user.blog_author
+        author.name = 'Ana Bloguera'
+        author.email = 'ana@example.com'
+        author.save()
         tag = Tag.objects.create(name='Django')
         post = Post.objects.create(
             title='Entrada con etiquetas',
@@ -69,6 +73,46 @@ class PostFormTests(TestCase):
 
         self.assertFalse(form.is_valid())
         self.assertIn('content', form.errors)
+
+    def test_post_form_creates_comma_separated_tags(self):
+        user = User.objects.create_user(
+            username='autor',
+            email='autor@example.com',
+            password='clave-segura',
+        )
+        author = user.blog_author
+        form = PostForm(
+            data={
+                'title': 'Titulo valido',
+                'subtitle': 'Subtitulo valido',
+                'content': 'Contenido suficientemente claro para publicar.',
+                'author_profile': author.pk,
+                'tag_names': 'Django, Blog',
+                'published': True,
+            },
+            user=user,
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+        post = form.save(commit=False)
+        post.author = user
+        post.save()
+        form.save_m2m()
+
+        self.assertEqual(list(post.tags.values_list('name', flat=True)), ['Blog', 'Django'])
+
+    def test_sync_author_reuses_existing_author_with_same_email(self):
+        Author.objects.create(name='Autor anterior', email='autor@example.com')
+        user = User.objects.create_user(
+            username='autor',
+            email='autor@example.com',
+            password='clave-segura',
+        )
+
+        author = sync_author_for_user(user)
+
+        self.assertEqual(author.user, user)
+        self.assertEqual(Author.objects.filter(email='autor@example.com').count(), 1)
 
 
 class TemplateUtilityTests(TestCase):
@@ -106,6 +150,22 @@ class BlogViewTests(TestCase):
         self.assertContains(response, 'Entrada publica')
         self.assertNotContains(response, 'Entrada privada')
 
+    def test_logged_author_sees_edit_and_delete_links_in_post_list(self):
+        author = User.objects.create_user(username='autor', password='clave-segura')
+        post = Post.objects.create(
+            title='Entrada editable',
+            subtitle='Subtitulo',
+            content='Contenido suficientemente claro para publicar.',
+            author=author,
+            published=True,
+        )
+        self.client.login(username='autor', password='clave-segura')
+
+        response = self.client.get(reverse('post_list'))
+
+        self.assertContains(response, reverse('post_update', kwargs={'slug': post.slug}))
+        self.assertContains(response, reverse('post_delete', kwargs={'slug': post.slug}))
+
     def test_anonymous_user_cannot_open_post_create_page(self):
         response = self.client.get(reverse('post_create'))
 
@@ -128,6 +188,8 @@ class BlogViewTests(TestCase):
                 'title': 'Titulo nuevo',
                 'subtitle': 'Subtitulo nuevo',
                 'content': 'Contenido actualizado con suficiente longitud.',
+                'author_profile': author.blog_author.pk,
+                'tag_names': '',
                 'published': True,
             },
         )
@@ -143,6 +205,8 @@ class BlogViewTests(TestCase):
             'title': 'Entrada duplicada',
             'subtitle': 'Subtitulo duplicado',
             'content': 'Contenido suficientemente largo para publicar una entrada.',
+            'author_profile': author.blog_author.pk,
+            'tag_names': '',
             'published': True,
         }
 
@@ -178,3 +242,12 @@ class BlogViewTests(TestCase):
 
         self.assertContains(response, 'Ana Bloguera')
         self.assertNotContains(response, 'Carlos Editor')
+
+    def test_search_authors_without_query_shows_all_authors(self):
+        Author.objects.create(name='Ana Bloguera', email='ana@example.com')
+        Author.objects.create(name='Carlos Editor', email='carlos@example.com')
+
+        response = self.client.get(reverse('author_search'))
+
+        self.assertContains(response, 'Ana Bloguera')
+        self.assertContains(response, 'Carlos Editor')

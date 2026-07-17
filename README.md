@@ -43,19 +43,33 @@ Luego abre:
 http://127.0.0.1:8000/
 ```
 
+## Usuario administrador
+
+El repositorio no incluye `db.sqlite3`, por lo que cada evaluador debe crear su propio usuario:
+
+```bash
+python manage.py createsuperuser
+```
+
+Despues se puede entrar al panel en:
+
+```text
+http://127.0.0.1:8000/admin/
+```
+
 ## Archivos estaticos y media
 
 Para preparar archivos estaticos en un entorno de despliegue:
 
 ```bash
-python manage.py collectstatic
+python manage.py collectstatic --noinput
 ```
 
 Las imagenes subidas por usuarios se guardan en `media/`.
 
 ## Despliegue o URL publica
 
-El proyecto esta preparado para documentar una URL publica usando PythonAnywhere, Render, Railway, Ngrok o Render.
+El proyecto esta preparado para documentar una URL publica usando Render, PythonAnywhere, Railway o Ngrok.
 
 Para Render se incluye:
 
@@ -73,6 +87,23 @@ ngrok http 8000
 
 Despues se copia la URL generada por Ngrok y se coloca en la presentacion de Google Slides.
 
+## Repositorio en GitHub
+
+Antes de compartir el enlace:
+
+```bash
+git status
+python manage.py test
+python manage.py check
+git add .
+git commit -m "Preparar entrega final"
+git branch -M main
+git remote add origin URL_DEL_REPOSITORIO
+git push -u origin main
+```
+
+El repositorio debe ser publico para que el evaluador pueda revisarlo desde la presentacion.
+
 ## Entrega
 
 La entrega final debe hacerse con una presentacion de Google Slides que incluya:
@@ -80,6 +111,8 @@ La entrega final debe hacerse con una presentacion de Google Slides que incluya:
 - Enlace publico al repositorio de GitHub.
 - Descripcion del proyecto.
 - Funcionalidades principales.
-- Capturas de pantalla del admin, registro, login, perfil, listado, detalle y formularios.
+- Evidencia visual del admin, registro, login, perfil, listado, detalle y formularios.
 - Instrucciones resumidas de ejecucion local.
 - URL publica real o simulacion documentada del despliegue.
+
+Tambien se incluye una guia de armado en `docs/google-slides-outline.md` y una lista de verificacion en `docs/entrega-checklist.md`.

@@ -29,7 +29,13 @@
                         {% endfor %}
                     </p>
                 {% endif %}
-                <a class="button" href="{{ post.get_absolute_url }}">Leer mas</a>
+                <div class="actions">
+                    <a class="button" href="{{ post.get_absolute_url }}">Leer mas</a>
+                    {% if user == post.author or user.is_staff %}
+                        <a class="button secondary" href="{% url 'post_update' post.slug %}">Editar</a>
+                        <a class="button danger" href="{% url 'post_delete' post.slug %}">Eliminar</a>
+                    {% endif %}
+                </div>
             </article>
         {% endfor %}
     </section>

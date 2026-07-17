@@ -2,6 +2,8 @@
 
 Esta guia resume una forma simple de obtener una URL publica para el proyecto.
 
+> Nota: para una entrega rapida tambien se puede usar Ngrok con `ngrok http 8000`.
+
 ## 1. Subir el proyecto a GitHub
 
 ```bash
@@ -30,6 +32,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 Tambien se incluye WhiteNoise en `MIDDLEWARE` para servir archivos estaticos.
 
+Para un despliegue real de produccion se recomienda mover `SECRET_KEY`, `DEBUG` y `ALLOWED_HOSTS` a variables de entorno. Para esta entrega se deja una configuracion simple y documentada.
+
 ## 4. Render
 
 Crear un nuevo Web Service en Render conectado al repositorio.
@@ -55,3 +59,5 @@ Render generara una URL parecida a:
 ```text
 https://miblogfinal.onrender.com
 ```
+
+Esa URL debe colocarse en la presentacion de Google Slides junto con el enlace del repositorio publico.

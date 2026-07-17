@@ -5,6 +5,13 @@ from django.utils.text import slugify
 
 
 class Author(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='blog_author',
+        blank=True,
+        null=True,
+    )
     name = models.CharField('nombre', max_length=100)
     email = models.EmailField('email', unique=True)
 

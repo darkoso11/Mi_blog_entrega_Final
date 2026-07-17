@@ -13,7 +13,7 @@
 </section>
 
 <section class="text-page results">
-    <h2>Resultados</h2>
+    <h2>{% if query %}Resultados{% else %}Autores disponibles{% endif %}</h2>
     {% if results %}
         <ul>
             {% for author in results %}
