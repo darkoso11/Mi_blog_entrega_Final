@@ -4,13 +4,13 @@ La entrega se realiza con una presentacion de Google Slides que funcione como RE
 
 ## 1. Portada
 
-- Proyecto: MiblogFinal.
+- Proyecto: Mi Blog Entrega Final.
 - Curso: Proyecto final Django.
 - Autor: Oswaldo.
 
 ## 2. Descripcion
 
-MiblogFinal es una aplicacion web tipo blog creada con Django. Permite crear usuarios, administrar perfiles, publicar entradas, asignar autores, agregar etiquetas y consultar autores.
+Mi Blog Entrega Final es una aplicacion web tipo blog creada con Django. Permite crear usuarios, administrar perfiles, publicar entradas, asignar autores, agregar etiquetas y consultar autores.
 
 ## 3. Repositorio
 

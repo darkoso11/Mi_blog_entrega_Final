@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.simple_tag
 def greeting(name):
-    return f'Hola {name}! Bienvenido a MiblogFinal.'
+    return f'Hola {name}! Bienvenido a Mi Blog Entrega Final.'
 
 
 @register.filter

@@ -1,4 +1,4 @@
 def site_info(request):
     return {
-        'site_name': 'MiblogFinal',
+        'site_name': 'Mi Blog Entrega Final',
     }

@@ -1,6 +1,6 @@
-# MiblogFinal
+# Mi Blog Entrega Final
 
-MiblogFinal es una aplicacion web tipo blog desarrollada con Django para la entrega final del curso. Permite registrar usuarios, iniciar sesion, gestionar perfiles, administrar autores y etiquetas, y publicar entradas de blog con formularios validados.
+Mi Blog Entrega Final es una aplicacion web tipo blog desarrollada con Django para la entrega final del curso. Permite registrar usuarios, iniciar sesion, gestionar perfiles, administrar autores y etiquetas, y publicar entradas de blog con formularios validados.
 
 ## Funcionalidades
 
