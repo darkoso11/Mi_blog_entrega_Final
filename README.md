@@ -12,7 +12,7 @@ Mi Blog Entrega Final es una aplicacion web tipo blog desarrollada con Django pa
 - Listado y detalle de entradas publicadas.
 - Creacion, edicion y eliminacion de entradas.
 - Permisos para que solo el autor o un administrador edite o elimine una entrada.
-- Paginas estaticas de acerca de y contacto.
+- Pagina estatica de acerca de.
 - Context processor para mostrar el nombre del sitio.
 - Template tags/filtros personalizados para formato de fecha.
 - Manejo de archivos estaticos y media.

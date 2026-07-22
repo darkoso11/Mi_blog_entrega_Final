@@ -16,7 +16,6 @@
                 <a href="{% url 'post_list' %}">Inicio</a>
                 <a href="{% url 'author_search' %}">Autores</a>
                 <a href="{% url 'about' %}">Acerca de</a>
-                <a href="{% url 'contact' %}">Contacto</a>
                 {% if user.is_authenticated %}
                     <a href="{% url 'post_create' %}">Nueva entrada</a>
                     <a href="{% url 'profile' %}">Perfil</a>

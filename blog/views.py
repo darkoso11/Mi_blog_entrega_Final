@@ -103,10 +103,6 @@ class AboutView(TemplateView):
     template_name = 'blog/about.html'
 
 
-class ContactView(TemplateView):
-    template_name = 'blog/contact.html'
-
-
 def search_authors(request):
     query = request.GET.get('q', '').strip()
     results = Author.objects.filter(name__icontains=query) if query else Author.objects.all()
