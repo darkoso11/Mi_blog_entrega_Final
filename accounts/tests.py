@@ -11,7 +11,7 @@ class AccountTests(TestCase):
 
         self.assertContains(
             response,
-            '<a class="brand" href="/">Mi Blog Entrega Final</a>',
+            '<a class="brand" href="/">Blog</a>',
             html=True,
         )
 

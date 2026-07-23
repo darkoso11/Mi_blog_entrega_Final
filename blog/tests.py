@@ -117,7 +117,7 @@ class PostFormTests(TestCase):
 
 class TemplateUtilityTests(TestCase):
     def test_site_info_context_processor_exposes_blog_name(self):
-        self.assertEqual(site_info(None)['site_name'], 'Mi Blog Entrega Final')
+        self.assertEqual(site_info(None)['site_name'], 'Blog')
 
     def test_format_date_filter_formats_date(self):
         rendered = Template(

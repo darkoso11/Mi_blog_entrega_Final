@@ -1,6 +1,6 @@
-# Mi Blog
+# Blog
 
-Mi Blog es una aplicación web tipo blog desarrollada con Django. Permite que los usuarios se registren, administren su perfil y publiquen entradas con título, subtítulo, contenido, imagen y etiquetas. Cada entrada puede consultarse, editarse o eliminarse, mientras el panel administrativo permite gestionar usuarios, autores, etiquetas y publicaciones.
+Blog es una aplicación web desarrollada con Django. Permite que los usuarios se registren, administren su perfil y publiquen entradas con título, subtítulo, contenido, imagen y etiquetas. Cada entrada puede consultarse, editarse o eliminarse, mientras el panel administrativo permite gestionar usuarios, autores, etiquetas y publicaciones.
 
 Repositorio público: [github.com/darkoso11/Mi_blog_entrega_Final](https://github.com/darkoso11/Mi_blog_entrega_Final)
 

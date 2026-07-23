@@ -1,5 +1,5 @@
 def site_info(request):
     return {
-        'blog_name': 'Mi Blog Entrega Final',
-        'site_name': 'Mi Blog Entrega Final',
+        'blog_name': 'Blog',
+        'site_name': 'Blog',
     }

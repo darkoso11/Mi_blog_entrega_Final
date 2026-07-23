@@ -1,6 +1,6 @@
 # Simulación de despliegue en Render
 
-Este documento describe una simulación reproducible del despliegue de Mi Blog Entrega Final. No representa una URL activa permanente, pero deja preparados los archivos y valores que Render necesita.
+Este documento describe una simulación reproducible del despliegue de Blog. No representa una URL activa permanente, pero deja preparados los archivos y valores que Render necesita.
 
 Para una demostración temporal también puede utilizarse Ngrok con `ngrok http 8000`.
 
