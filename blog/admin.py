@@ -23,8 +23,8 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author_profile', 'author', 'published', 'created_at')
-    list_filter = ('published', 'created_at', 'author_profile', 'tags')
+    list_display = ('title', 'author_profile', 'author', 'created_at')
+    list_filter = ('created_at', 'author_profile', 'tags')
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ('title', 'subtitle', 'content', 'author__username')
     filter_horizontal = ('tags',)

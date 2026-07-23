@@ -23,7 +23,7 @@ class PostListView(ListView):
     context_object_name = 'posts'
 
     def get_queryset(self):
-        return Post.published_posts.select_related('author', 'author_profile').prefetch_related('tags')
+        return Post.objects.select_related('author', 'author_profile').prefetch_related('tags')
 
 
 class PostDetailView(DetailView):

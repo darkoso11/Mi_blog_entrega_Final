@@ -32,11 +32,6 @@ class Tag(models.Model):
         return self.name
 
 
-class PublishedPostManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(published=True)
-
-
 class Post(models.Model):
     title = models.CharField('titulo', max_length=120)
     slug = models.SlugField('slug', max_length=140, unique=True, blank=True)
@@ -53,12 +48,8 @@ class Post(models.Model):
         null=True,
     )
     tags = models.ManyToManyField(Tag, verbose_name='etiquetas', related_name='posts', blank=True)
-    published = models.BooleanField('publicado', default=True)
     created_at = models.DateTimeField('creado', auto_now_add=True)
     updated_at = models.DateTimeField('actualizado', auto_now=True)
-
-    objects = models.Manager()
-    published_posts = PublishedPostManager()
 
     class Meta:
         ordering = ['-created_at']

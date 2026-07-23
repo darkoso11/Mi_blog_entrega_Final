@@ -10,25 +10,6 @@ from .utils import sync_author_for_user
 
 
 class PostModelTests(TestCase):
-    def test_published_posts_manager_returns_only_published_posts(self):
-        author = User.objects.create_user(username='autor', password='clave-segura')
-        published = Post.objects.create(
-            title='Entrada visible',
-            subtitle='Subtitulo visible',
-            content='Contenido suficientemente claro para publicar.',
-            author=author,
-            published=True,
-        )
-        Post.objects.create(
-            title='Borrador',
-            subtitle='Subtitulo oculto',
-            content='Contenido privado.',
-            author=author,
-            published=False,
-        )
-
-        self.assertEqual(list(Post.published_posts.all()), [published])
-
     def test_slug_is_generated_from_title(self):
         author = User.objects.create_user(username='autor', password='clave-segura')
         post = Post.objects.create(
@@ -61,16 +42,26 @@ class PostModelTests(TestCase):
 
 
 class PostFormTests(TestCase):
-    def test_published_field_explains_publication_and_draft_states(self):
-        field = PostForm().fields['published']
-
-        self.assertEqual(field.label, 'Publicar entrada ahora')
+    def test_post_form_contains_only_content_fields(self):
         self.assertEqual(
-            field.help_text,
-            'Si desmarcas esta casilla, la entrada se guardará como borrador '
-            'y no aparecerá en el blog.',
+            list(PostForm().fields),
+            ['title', 'subtitle', 'content', 'author_profile', 'tag_names', 'image'],
         )
-        self.assertTrue(field.initial)
+        self.assertEqual(
+            [field.name for field in Post._meta.fields],
+            [
+                'id',
+                'title',
+                'slug',
+                'subtitle',
+                'content',
+                'image',
+                'author',
+                'author_profile',
+                'created_at',
+                'updated_at',
+            ],
+        )
 
     def test_post_form_rejects_short_content(self):
         form = PostForm(
@@ -78,7 +69,6 @@ class PostFormTests(TestCase):
                 'title': 'Titulo valido',
                 'subtitle': 'Subtitulo valido',
                 'content': 'corto',
-                'published': True,
             }
         )
 
@@ -99,7 +89,6 @@ class PostFormTests(TestCase):
                 'content': 'Contenido suficientemente claro para publicar.',
                 'author_profile': author.pk,
                 'tag_names': 'Django, Blog',
-                'published': True,
             },
             user=user,
         )
@@ -139,27 +128,18 @@ class TemplateUtilityTests(TestCase):
 
 
 class BlogViewTests(TestCase):
-    def test_post_list_shows_published_post_titles(self):
+    def test_post_list_shows_post_titles(self):
         author = User.objects.create_user(username='autor', password='clave-segura')
         Post.objects.create(
-            title='Entrada publica',
+            title='Entrada visible',
             subtitle='Subtitulo',
             content='Contenido suficientemente claro para publicar.',
             author=author,
-            published=True,
-        )
-        Post.objects.create(
-            title='Entrada privada',
-            subtitle='Subtitulo',
-            content='Contenido suficientemente claro para publicar.',
-            author=author,
-            published=False,
         )
 
         response = self.client.get(reverse('post_list'))
 
-        self.assertContains(response, 'Entrada publica')
-        self.assertNotContains(response, 'Entrada privada')
+        self.assertContains(response, 'Entrada visible')
 
     def test_logged_author_sees_edit_and_delete_links_in_post_list(self):
         author = User.objects.create_user(username='autor', password='clave-segura')
@@ -168,7 +148,6 @@ class BlogViewTests(TestCase):
             subtitle='Subtitulo',
             content='Contenido suficientemente claro para publicar.',
             author=author,
-            published=True,
         )
         self.client.login(username='autor', password='clave-segura')
 
@@ -189,7 +168,6 @@ class BlogViewTests(TestCase):
             subtitle='Subtitulo',
             content='Contenido suficientemente claro para publicar.',
             author=author,
-            published=True,
         )
         self.client.login(username='autor', password='clave-segura')
 
@@ -201,7 +179,6 @@ class BlogViewTests(TestCase):
                 'content': 'Contenido actualizado con suficiente longitud.',
                 'author_profile': author.blog_author.pk,
                 'tag_names': '',
-                'published': True,
             },
         )
 
@@ -218,7 +195,6 @@ class BlogViewTests(TestCase):
             'content': 'Contenido suficientemente largo para publicar una entrada.',
             'author_profile': author.blog_author.pk,
             'tag_names': '',
-            'published': True,
         }
 
         first_response = self.client.post(reverse('post_create'), data)
@@ -237,7 +213,6 @@ class BlogViewTests(TestCase):
             subtitle='Subtitulo',
             content='Contenido suficientemente claro para publicar.',
             author=author,
-            published=True,
         )
         self.client.login(username='otro', password='clave-segura')
 

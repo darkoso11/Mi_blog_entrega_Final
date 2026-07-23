@@ -23,7 +23,6 @@ class Migration(migrations.Migration):
                 ('subtitle', models.CharField(max_length=180, verbose_name='subtitulo')),
                 ('content', models.TextField(verbose_name='contenido')),
                 ('image', models.ImageField(blank=True, null=True, upload_to='posts/', verbose_name='imagen')),
-                ('published', models.BooleanField(default=True, verbose_name='publicado')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='creado')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='actualizado')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='posts', to=settings.AUTH_USER_MODEL)),

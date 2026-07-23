@@ -13,20 +13,13 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'subtitle', 'content', 'author_profile', 'tag_names', 'image', 'published']
+        fields = ['title', 'subtitle', 'content', 'author_profile', 'tag_names', 'image']
         labels = {
             'title': 'Titulo',
             'subtitle': 'Subtitulo',
             'content': 'Contenido',
             'author_profile': 'Autor',
             'image': 'Imagen',
-            'published': 'Publicar entrada ahora',
-        }
-        help_texts = {
-            'published': (
-                'Si desmarcas esta casilla, la entrada se guardará como borrador '
-                'y no aparecerá en el blog.'
-            ),
         }
 
     def __init__(self, *args, user=None, **kwargs):
