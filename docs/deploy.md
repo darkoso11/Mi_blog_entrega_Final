@@ -1,17 +1,14 @@
-# Deploy de Mi Blog Entrega Final en Render
+# Simulación de despliegue en Render
 
-Esta guia resume una forma simple de obtener una URL publica para el proyecto.
+Este documento describe una simulación reproducible del despliegue de Mi Blog Entrega Final. No representa una URL activa permanente, pero deja preparados los archivos y valores que Render necesita.
 
-> Nota: para una entrega rapida tambien se puede usar Ngrok con `ngrok http 8000`.
+Para una demostración temporal también puede utilizarse Ngrok con `ngrok http 8000`.
 
 ## 1. Subir el proyecto a GitHub
 
 ```bash
-git add .
-git commit -m "Proyecto final Django"
-git branch -M main
-git remote add origin URL_DEL_REPOSITORIO
-git push -u origin main
+git clone https://github.com/darkoso11/Mi_blog_entrega_Final.git
+cd Mi_blog_entrega_Final
 ```
 
 ## 2. Dependencias
@@ -20,19 +17,25 @@ El proyecto incluye `gunicorn` y `whitenoise` en `requirements.txt`.
 
 ## 3. Configuracion importante
 
-En `settings.py` ya estan definidos:
+En `settings.py` ya están definidos:
 
 ```python
-ALLOWED_HOSTS = [...]
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 ```
 
-Tambien se incluye WhiteNoise en `MIDDLEWARE` para servir archivos estaticos.
+También se incluye WhiteNoise en `MIDDLEWARE` para servir archivos estáticos. La clave secreta, el modo debug y los hosts se leen de variables de entorno.
 
-Para un despliegue real de produccion se recomienda mover `SECRET_KEY`, `DEBUG` y `ALLOWED_HOSTS` a variables de entorno. Para esta entrega se deja una configuracion simple y documentada.
+Variables recomendadas en Render:
+
+```text
+DJANGO_SECRET_KEY=<una clave larga y aleatoria>
+DJANGO_DEBUG=False
+```
+
+Render proporciona `RENDER_EXTERNAL_HOSTNAME` automáticamente y el proyecto lo agrega a `ALLOWED_HOSTS`.
 
 ## 4. Render
 
@@ -41,9 +44,7 @@ Crear un nuevo Web Service en Render conectado al repositorio.
 Build Command:
 
 ```bash
-pip install -r requirements.txt
-python manage.py collectstatic --noinput
-python manage.py migrate
+pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
 ```
 
 Start Command:
@@ -52,12 +53,22 @@ Start Command:
 gunicorn MiblogFinal.wsgi:application
 ```
 
-## 5. URL final
+Después del primer despliegue se crea el usuario administrador desde la consola del servicio:
 
-Render generara una URL parecida a:
+```bash
+python manage.py createsuperuser
+```
+
+## 5. Resultado esperado
+
+Render generará una URL parecida a:
 
 ```text
 https://miblogfinal.onrender.com
 ```
 
-Esa URL debe colocarse en la presentacion de Google Slides junto con el enlace del repositorio publico.
+La URL generada debe colocarse en la presentación junto con el enlace del repositorio público.
+
+## 6. Archivos media
+
+WhiteNoise sirve archivos estáticos, pero no conserva las imágenes subidas por usuarios. En un despliegue permanente se debe conectar almacenamiento persistente, como Cloudinary o un servicio compatible con S3. Para la demostración local o mediante Ngrok, `MEDIA_ROOT` es suficiente.

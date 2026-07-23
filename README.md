@@ -1,6 +1,8 @@
-# Mi Blog Entrega Final
+# Mi Blog
 
-Mi Blog Entrega Final es una aplicacion web tipo blog desarrollada con Django para la entrega final del curso. Permite registrar usuarios, iniciar sesion, gestionar perfiles, administrar autores y etiquetas, y publicar entradas de blog con formularios validados.
+Mi Blog es una aplicación web tipo blog desarrollada con Django. Permite que los usuarios se registren, administren su perfil y publiquen entradas con título, subtítulo, contenido, imagen y etiquetas. Cada entrada puede consultarse, editarse o eliminarse, mientras el panel administrativo permite gestionar usuarios, autores, etiquetas y publicaciones.
+
+Repositorio público: [github.com/darkoso11/Mi_blog_entrega_Final](https://github.com/darkoso11/Mi_blog_entrega_Final)
 
 ## Funcionalidades
 
@@ -12,7 +14,7 @@ Mi Blog Entrega Final es una aplicacion web tipo blog desarrollada con Django pa
 - Listado y detalle de entradas publicadas.
 - Creacion, edicion y eliminacion de entradas.
 - Permisos para que solo el autor o un administrador edite o elimine una entrada.
-- Pagina estatica de acerca de.
+- Página estática de acerca de.
 - Context processor para mostrar el nombre del sitio.
 - Template tags/filtros personalizados para formato de fecha.
 - Manejo de archivos estaticos y media.
@@ -20,15 +22,15 @@ Mi Blog Entrega Final es una aplicacion web tipo blog desarrollada con Django pa
 
 ## Requisitos
 
-- Python 3.13 o superior.
+- Python 3.13.
 - pip.
 - Entorno virtual recomendado.
 
 ## Instalacion local
 
 ```bash
-git clone URL_DEL_REPOSITORIO
-cd Proyecto-final-CoderHouse
+git clone https://github.com/darkoso11/Mi_blog_entrega_Final.git
+cd Mi_blog_entrega_Final
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
@@ -57,6 +59,12 @@ Despues se puede entrar al panel en:
 http://127.0.0.1:8000/admin/
 ```
 
+## Datos de demostración
+
+La base de datos local, los usuarios y sus contraseñas no se incluyen en el repositorio. Cada instalación comienza con una base limpia después de ejecutar las migraciones. El evaluador puede registrar un usuario desde la aplicación, crear un superusuario y publicar sus propias entradas.
+
+Las capturas de este README muestran contenido de demostración creado localmente y sirven como evidencia del funcionamiento esperado.
+
 ## Archivos estaticos y media
 
 Para preparar archivos estaticos en un entorno de despliegue:
@@ -67,9 +75,9 @@ python manage.py collectstatic --noinput
 
 Las imagenes subidas por usuarios se guardan en `media/`.
 
-## Despliegue o URL publica
+## Despliegue o URL pública
 
-El proyecto esta preparado para documentar una URL publica usando Render, PythonAnywhere, Railway o Ngrok.
+El despliegue está documentado mediante una simulación reproducible para Render porque esta copia no mantiene un servicio público permanente. La configuración acepta las variables de entorno de Render, y el procedimiento completo está en [`docs/deploy.md`](docs/deploy.md).
 
 Para Render se incluye:
 
@@ -78,41 +86,41 @@ Para Render se incluye:
 - `whitenoise`
 - `docs/deploy.md`
 
-Para una demostracion temporal con Ngrok:
+Para una demostración temporal con Ngrok:
 
 ```bash
 python manage.py runserver
 ngrok http 8000
 ```
 
-Despues se copia la URL generada por Ngrok y se coloca en la presentacion de Google Slides.
+La URL temporal que genere Ngrok puede utilizarse en la demostración y en la presentación.
 
-## Repositorio en GitHub
+## Evidencia visual
 
-Antes de compartir el enlace:
+Las capturas incluidas en `docs/images/` muestran las funcionalidades principales:
 
-```bash
-git status
-python manage.py test
-python manage.py check
-git add .
-git commit -m "Preparar entrega final"
-git branch -M main
-git remote add origin URL_DEL_REPOSITORIO
-git push -u origin main
-```
+### Página inicial y navegación
 
-El repositorio debe ser publico para que el evaluador pueda revisarlo desde la presentacion.
+![Página inicial con entradas publicadas](docs/images/inicio.png)
 
-## Entrega
+### Registro e inicio de sesión
 
-La entrega final debe hacerse con una presentacion de Google Slides que incluya:
+![Formulario de registro](docs/images/registro.png)
 
-- Enlace publico al repositorio de GitHub.
-- Descripcion del proyecto.
-- Funcionalidades principales.
-- Evidencia visual del admin, registro, login, perfil, listado, detalle y formularios.
-- Instrucciones resumidas de ejecucion local.
-- URL publica real o simulacion documentada del despliegue.
+![Formulario de inicio de sesión](docs/images/login.png)
 
-Tambien se incluye una guia de armado en `docs/google-slides-outline.md` y una lista de verificacion en `docs/entrega-checklist.md`.
+### Perfil de usuario
+
+![Perfil del usuario de demostración](docs/images/perfil.png)
+
+### Creación de contenido
+
+![Formulario para crear una entrada](docs/images/crear-entrada.png)
+
+### Búsqueda de autores
+
+![Página de búsqueda de autores](docs/images/autores.png)
+
+### Panel administrativo
+
+![Panel administrativo de Django](docs/images/admin.png)

@@ -6,6 +6,15 @@ from .models import Profile
 
 
 class AccountTests(TestCase):
+    def test_login_page_keeps_blog_name_in_navigation(self):
+        response = self.client.get(reverse('login'))
+
+        self.assertContains(
+            response,
+            '<a class="brand" href="/">Mi Blog Entrega Final</a>',
+            html=True,
+        )
+
     def test_profile_is_created_when_user_is_created(self):
         user = User.objects.create_user(username='ana', password='clave-segura')
 
