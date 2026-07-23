@@ -61,6 +61,17 @@ class PostModelTests(TestCase):
 
 
 class PostFormTests(TestCase):
+    def test_published_field_explains_publication_and_draft_states(self):
+        field = PostForm().fields['published']
+
+        self.assertEqual(field.label, 'Publicar entrada ahora')
+        self.assertEqual(
+            field.help_text,
+            'Si desmarcas esta casilla, la entrada se guardará como borrador '
+            'y no aparecerá en el blog.',
+        )
+        self.assertTrue(field.initial)
+
     def test_post_form_rejects_short_content(self):
         form = PostForm(
             data={
