@@ -11,7 +11,7 @@ Repositorio público: [github.com/darkoso11/Mi_blog_entrega_Final](https://githu
 - Perfil de usuario con edicion de datos basicos, biografia y avatar.
 - Administracion de autores y etiquetas desde Django Admin.
 - Busqueda de autores por nombre.
-- Listado y detalle de entradas publicadas.
+- Listado y detalle de entradas.
 - Creacion, edicion y eliminacion de entradas.
 - Permisos para que solo el autor o un administrador edite o elimine una entrada.
 - Página estática de acerca de.
@@ -101,7 +101,7 @@ Las capturas incluidas en `docs/images/` muestran las funcionalidades principale
 
 ### Página inicial y navegación
 
-![Página inicial con entradas publicadas](docs/images/inicio.png)
+![Página inicial con entradas del blog](docs/images/inicio.png)
 
 ### Registro e inicio de sesión
 

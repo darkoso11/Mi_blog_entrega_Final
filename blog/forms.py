@@ -24,7 +24,6 @@ class PostForm(forms.ModelForm):
 
     def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.user = user
         if user and user.is_authenticated:
             author = sync_author_for_user(user)
             self.fields['author_profile'].initial = author.pk

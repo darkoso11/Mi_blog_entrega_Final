@@ -3,11 +3,6 @@ from django import template
 register = template.Library()
 
 
-@register.simple_tag
-def greeting(name):
-    return f'Hola {name}! Bienvenido a Blog.'
-
-
 @register.filter
 def format_date(value):
     if not value:

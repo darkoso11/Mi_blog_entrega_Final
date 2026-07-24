@@ -117,7 +117,7 @@ class PostFormTests(TestCase):
 
 class TemplateUtilityTests(TestCase):
     def test_site_info_context_processor_exposes_blog_name(self):
-        self.assertEqual(site_info(None)['site_name'], 'Blog')
+        self.assertEqual(site_info(None), {'blog_name': 'Blog'})
 
     def test_format_date_filter_formats_date(self):
         rendered = Template(
@@ -128,6 +128,11 @@ class TemplateUtilityTests(TestCase):
 
 
 class BlogViewTests(TestCase):
+    def test_empty_post_list_explains_that_there_are_no_entries(self):
+        response = self.client.get(reverse('post_list'))
+
+        self.assertContains(response, 'No hay entradas todavia.')
+
     def test_post_list_shows_post_titles(self):
         author = User.objects.create_user(username='autor', password='clave-segura')
         Post.objects.create(
